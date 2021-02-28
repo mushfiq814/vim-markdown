@@ -19,7 +19,7 @@ https://google.com kasdjaowd
 !Not an image
 
 | hello | world |
-|-------|-------|
+|:------|------:|
 | how   | you   |
 
 Inside **bold text** also this text is
@@ -49,4 +49,4 @@ This is a `code` value. Another `longer code value here as well`. What happens i
 const x = 'hello';
 console.log('Hello ', x);
 
-``
+```

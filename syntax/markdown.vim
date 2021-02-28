@@ -29,30 +29,47 @@ syn match markdownList /^\t\t[-+*] /ms=s+2,me=e-1 conceal cchar=◑
 syn match markdownList /^\t\t\t[-+*] /ms=s+3,me=e-1 conceal cchar=□
 syn match markdownList /^\t\t\t\t[-+*] /ms=s+4,me=e-1 conceal cchar=▨
 
-" Nunmbered Lists
+" Numbered Lists
 syn match markdownNumberList '^\s*\d\+\. '
 
 " Any url
-syntax match markdownGeneralUrl '\(https\?:\/\/\(\w\+\(:\w\+\)\?@\)\?\([A-Za-z0-9][-_0-9A-Za-z]*\.\)\{1,}\(\w\{2,}\.\?\)\{1,}\(:[0-9]\{1,5}\)\?[^] \t]*\)'
+syntax match markdownGeneralUrl
+	\ '\(https\?:\/\/\(\w\+\(:\w\+\)\?@\)\?\([A-Za-z0-9][-_0-9A-Za-z]*\.\)\{1,}\(\w\{2,}\.\?\)\{1,}\(:[0-9]\{1,5}\)\?[^] \t]*\)'
 
 " Markdown Links: [text](url) OR ![image-alt](url)
-syntax region markdownLinkUrl matchgroup=markdownLinkUrlParans start="(" end=")" contains=markdownGeneralUrl keepend oneline
-syntax region markdownLinkTitle matchgroup=markdownLinkTitleBracks start="!\?\[" end="\]" keepend oneline
+syntax region markdownLinkUrl matchgroup=markdownLinkUrlParans
+	\ start="(" end=")" contains=markdownGeneralUrl keepend oneline
+syntax region markdownLinkTitle matchgroup=markdownLinkTitleBracks
+	\ start="!\?\[" end="\]" keepend oneline
 
 " Tables: | txt | txt |\n|--|--|\n| txt | txt |
 
 " Italic: *italicized*
-syn region markdownItalic start='\%(^\|\s\)\zs\*\ze[^\\\*\t ]\%(\%([^*]\|\\\*\|\n\)*[^\\\*\t ]\)\?\*\_W'ms=s+1 end='[^\\\*\t ]\zs\*\ze\_W'me=e-1 keepend contains=@Spell oneline
+syn region markdownItalic
+	\ start='\%(^\|\s\)\zs\*\ze[^\\\*\t ]\%(\%([^*]\|\\\*\|\n\)*[^\\\*\t ]\)\?\*\_W'ms=s+1
+	\ end='[^\\\*\t ]\zs\*\ze\_W'me=e-1 keepend contains=@Spell oneline
 " Italic: _italicized_
-syn region markdownItalic start='\%(^\|\s\)\zs_\ze[^\\_\t ]'ms=s+1 end='[^\\_\t ]\zs_\ze\_W'me=e-1 keepend contains=@Spell oneline
+syn region markdownItalic
+	\ start='\%(^\|\s\)\zs_\ze[^\\_\t ]'ms=s+1
+	\ end='[^\\_\t ]\zs_\ze\_W'me=e-1 keepend contains=@Spell oneline
+
 " Bold: **Bold**
-syn region markdownBold start='\%(^\|\s\)\zs\*\*\ze\S'ms=s+2 end='\S\zs\*\*'me=e-2 keepend contains=@Spell oneline
+syn region markdownBold
+	\ start='\%(^\|\s\)\zs\*\*\ze\S'ms=s+2
+	\ end='\S\zs\*\*'me=e-2 keepend contains=@Spell oneline
 " Bold: __Bold__
-syn region markdownBold start='\%(^\|\s\)\zs__\ze\S'ms=s+2 end='\S\zs__'me=e-2 keepend contains=@Spell oneline
+syn region markdownBold
+	\ start='\%(^\|\s\)\zs__\ze\S'ms=s+2
+	\ end='\S\zs__'me=e-2 keepend contains=@Spell oneline
+
 " Strikethrough: ~~strike 3~~
-syn region markdownStrike start='\%(^\|\s\)\zs\~\~\ze\S'ms=s+2 end='\S\zs\~\~'me=e-2 keepend contains=@Spell oneline
+syn region markdownStrike
+	\ start='\%(^\|\s\)\zs\~\~\ze\S'ms=s+2
+	\ end='\S\zs\~\~'me=e-2 keepend contains=@Spell oneline
 " Code: `monospace font`
-syn region markdownCode start='\%(^\|\s\)\zs`\ze\S'ms=s+1 end='\S\zs`'me=e-1 keepend contains=@Spell oneline
+syn region markdownCode
+	\ start='\%(^\|\s\)\zs`\ze\S'ms=s+1
+	\ end='\S\zs`'me=e-1 keepend contains=@Spell oneline
 
 " Task List: * [ ] Not Done OR - [X] Done OR + [x] also done
 
