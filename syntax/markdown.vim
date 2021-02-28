@@ -15,19 +15,20 @@
 " syn region mkdMath start="\\\@<!\$\$" end="\$\$" skip="\\\$" contains=@tex keepend
 
 " Headings: # Heading OR ### Heading
-syn region markdownH1 matchgroup=markdownHeadingIcon start='^\s*# '      end='$' keepend oneline
-syn region markdownH2 matchgroup=markdownHeadingIcon start='^\s*## '     end='$' keepend oneline
-syn region markdownH3 matchgroup=markdownHeadingIcon start='^\s*### '    end='$' keepend oneline
-syn region markdownH4 matchgroup=markdownHeadingIcon start='^\s*#### '   end='$' keepend oneline
-syn region markdownH5 matchgroup=markdownHeadingIcon start='^\s*##### '  end='$' keepend oneline
-syn region markdownH6 matchgroup=markdownHeadingIcon start='^\s*###### ' end='$' keepend oneline
+syn region markdownH1 matchgroup=markdownHeadingIcon start='\s*# '      end='$' keepend oneline
+syn region markdownH2 matchgroup=markdownHeadingIcon start='\s*## '     end='$' keepend oneline
+syn region markdownH3 matchgroup=markdownHeadingIcon start='\s*### '    end='$' keepend oneline
+syn region markdownH4 matchgroup=markdownHeadingIcon start='\s*#### '   end='$' keepend oneline
+syn region markdownH5 matchgroup=markdownHeadingIcon start='\s*##### '  end='$' keepend oneline
+syn region markdownH6 matchgroup=markdownHeadingIcon start='\s*###### ' end='$' keepend oneline
 
 " Lists: * list item OR - list item OR + list item
-syn match markdownList '^[-+*] 'me=e-1 conceal cchar=●
-syn match markdownList /^\t[-+*] /ms=s+1,me=e-1 conceal cchar=▨
-syn match markdownList /^\t\t[-+*] /ms=s+2,me=e-1 conceal cchar=◑
-syn match markdownList /^\t\t\t[-+*] /ms=s+3,me=e-1 conceal cchar=□
-syn match markdownList /^\t\t\t\t[-+*] /ms=s+4,me=e-1 conceal cchar=▨
+" Conceal will show fancy chars instead of [-+*]
+syn match markdownList '^[-+*] 'me=e-1 conceal cchar=◉
+syn match markdownList /^\t[-+*] /ms=e-1,me=e-1 conceal cchar=▨
+syn match markdownList /^\t\t[-+*] /ms=e-1,me=e-1 conceal cchar=◑
+syn match markdownList /^\t\t\t[-+*] /ms=e-1,me=e-1 conceal cchar=□
+syn match markdownList /^\t\t\t\t\+[-+*] /ms=e-1,me=e-1 conceal cchar=⨁
 
 " Numbered Lists
 syn match markdownNumberList '^\s*\d\+\. '
@@ -38,11 +39,9 @@ syntax match markdownGeneralUrl
 
 " Markdown Links: [text](url) OR ![image-alt](url)
 syntax region markdownLinkUrl matchgroup=markdownLinkUrlParans
-	\ start="(" end=")" contains=markdownGeneralUrl keepend oneline
+	\ start='(' end=')' contains=markdownGeneralUrl keepend oneline
 syntax region markdownLinkTitle matchgroup=markdownLinkTitleBracks
-	\ start="!\?\[" end="\]" keepend oneline
-
-" Tables: | txt | txt |\n|--|--|\n| txt | txt |
+	\ start='!\?\[' end='\]' keepend oneline
 
 " Italic: *italicized*
 syn region markdownItalic
@@ -62,6 +61,15 @@ syn region markdownBold
 	\ start='\%(^\|\s\)\zs__\ze\S'ms=s+2
 	\ end='\S\zs__'me=e-2 keepend contains=@Spell oneline
 
+" BoldItalic: ***BoldItalic***
+syn region markdownBoldItalic
+	\ start='\%(^\|\s\)\zs\*\*\*\ze\S'ms=s+3
+	\ end='\S\zs\*\*\*'me=e-3 keepend contains=@Spell oneline
+" BoldItalic: ___BoldItalic___
+syn region markdownBoldItalic
+	\ start='\%(^\|\s\)\zs___\ze\S'ms=s+3
+	\ end='\S\zs___'me=e-3 keepend contains=@Spell oneline
+
 " Strikethrough: ~~strike 3~~
 syn region markdownStrike
 	\ start='\%(^\|\s\)\zs\~\~\ze\S'ms=s+2
@@ -74,40 +82,49 @@ syn region markdownCode
 " Task List: * [ ] Not Done OR - [X] Done OR + [x] also done
 
 " BlockQuote: > This is a quote
-syn region markdownBlockQuote start='^\s*> ' end='$' keepend oneline
-
-" Code Blocks: \s\s\s\scode
-syn region markdownCodeBlock start='^    ' end='$'
+syn region markdownBlockQuote start='^\s*> ' end='$'
+	\ contains=markdownCode,markdownStrike,markdownBoldItalic,markdownBold,markdownItalic,
+	\ markdownList,markdownNumberList keepend oneline
 
 " Fenced Code Blocks: ```javascript\nThis is a code block\n```
+syn region markdownCodeBlock matchgroup=markdownCodeDelimiter
+	\ start='^\s*```\+.*$' end='^\s*```\+\s*$' keepend
+
+" Tables: | txt | txt |\n|--|--|\n| txt | txt |
+" syn region markdownTable1 matchgroup=markdownTableDividers
+" 	\ start='|' end='|' keepend oneline
 
 " Horizontal Rule: ---
 
 " Footnote: [^1]: Text
 
-" Custom coloring
+" Custom coloring and rendering
+hi! markdownH1         guifg=#FABD2F    gui=bold
+hi! markdownH2         guifg=#FE8019    gui=bold
+hi! markdownH3         guifg=#FE8019    gui=bold
+hi! markdownH4         guifg=#B8BB26    gui=bold
+hi! markdownH5         guifg=#B8BB26    gui=bold
+hi! markdownH6         guifg=#B8BB26    gui=bold
+hi! markdownBold       guifg=#83A598    gui=bold
+hi! markdownItalic     guifg=#83A598    gui=italic
+hi! markdownBoldItalic guifg=#83A598    gui=bold,italic
+hi! markdownStrike     guifg=#83A598    gui=strikethrough
 hi! markdownGeneralUrl guifg=#FFA3BD    gui=underline
 
 " Highlight Groups
 hi! def link markdownHeadingIcon        GruvboxFg4
-hi! def link markdownH1                 GruvboxYellow
-hi! def link markdownH2                 GruvboxOrange
-hi! def link markdownH3                 GruvboxOrange
-hi! def link markdownH4                 GruvboxGreen
-hi! def link markdownH5                 GruvboxGreen
-hi! def link markdownH6                 GruvboxGreen
-hi! def link markdownBlockQuote         GruvboxAqua
+hi! def link markdownBlockQuote         Comment
 hi! def link markdownList               GruvboxRed
 hi! def link markdownNumberList         GruvboxRed
-hi! def link markdownBold               GruvboxBlue
-hi! def link markdownItalic             GruvboxBlue
-hi! def link markdownStrike             GruvboxBlue
 hi! def link markdownCode               GruvboxPurple
-hi! def link markdownCodeBlock          GruvboxRed
+hi! def link markdownCodeBlock          GruvboxPurple
+hi! def link markdownCodeDelimiter      GruvboxBlue
 hi! def link markdownLinkTitleBracks    GruvboxAqua
 hi! def link markdownLinkUrlParans      GruvboxAqua
 hi! def link markdownLinkTitle          GruvboxFg2
 hi! def link markdownLinkUrl            GruvboxRed
+hi! def link markdownTable1 GruvboxYellow
+hi! markdownTableDividers guifg=#000000 guibg=#5E554B
 
 " Conceal Highlight Color
 hi! def link Conceal GruvboxRed
