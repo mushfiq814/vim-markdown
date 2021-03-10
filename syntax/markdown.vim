@@ -14,6 +14,19 @@
 " syn region mkdMath start="\\\@<!\$" end="\$" skip="\\\$" contains=@tex keepend
 " syn region mkdMath start="\\\@<!\$\$" end="\$\$" skip="\\\$" contains=@tex keepend
 
+" Table Formatting Ideas
+" These could be put into a snippet file
+" Table drawing ascii chars
+"
+" ╝ ╗ ╔ ╚ ═ ║ ╩ ╦ ╬ ╠ ╣
+" ┘ ┐ ┌ └ ─ │ ┴ ┬ ┼ ├ ┤
+"
+" ╔════════╦═══════╗    ┌──────┬─────────────┐
+" ║ hello  ║ world ║    │ hi   │ again       │
+" ╠════════╬═══════╣    ├──────┼─────────────┤
+" ║ this a ║ table ║    │ this │ another one │
+" ╚════════╩═══════╝    └──────┴─────────────┘
+
 " Headings: # Heading OR ### Heading
 syn region markdownH1 matchgroup=markdownHeadingIcon start='\s*# '      end='$' keepend oneline
 syn region markdownH2 matchgroup=markdownHeadingIcon start='\s*## '     end='$' keepend oneline
