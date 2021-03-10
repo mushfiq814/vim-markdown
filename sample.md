@@ -36,10 +36,6 @@ This is a `code` value. Another `longer code value here as well`. What happens i
 > - THis *is* a quote with `code` inside
 > - THis *is* a quote with `code` inside
 
-* [ ] Example Task
-* [X] Example Completed Task
-* [x] another example completed task
-
 1. Hello
 	1. another list
 		* Even deeper
