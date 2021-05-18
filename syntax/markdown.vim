@@ -26,6 +26,10 @@
 " ╠════════╬═══════╣    ├──────┼─────────────┤
 " ║ this a ║ table ║    │ this │ another one │
 " ╚════════╩═══════╝    └──────┴─────────────┘
+" Embedded Latex syntax using $ or $$
+syn include @tex syntax/tex.vim
+syn region mkdMath start="\\\@<!\$" end="\$" skip="\\\$" contains=@tex keepend
+syn region mkdMath start="\\\@<!\$\$" end="\$\$" skip="\\\$" contains=@tex keepend
 
 " Headings: # Heading OR ### Heading
 syn region markdownH1 matchgroup=markdownHeadingIcon start='\s*# '      end='$' keepend oneline
